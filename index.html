@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Guía Práctica: Revit + Speckle + Power BI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .slide { display: none; }
+    .slide.active { display: block; animation: fadeIn 0.35s ease-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between p-4 md:p-8 font-sans">
+
+  <!-- BARRA SUPERIOR -->
+  <header class="max-w-6xl w-full mx-auto flex flex-wrap justify-between items-center border-b border-slate-800 pb-4 mb-6 gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center font-black text-lg shadow-lg shadow-blue-900/40">B4D</div>
+      <div>
+        <h1 class="text-lg md:text-xl font-extrabold text-white">Taller BIM: Conexión Revit &rarr; Speckle &rarr; Power BI</h1>
+        <p class="text-xs text-slate-400">Basado en ISO 19650 / Guía Nacional BIM &middot; Flujo de Control de Metrados y Cronograma</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2 text-xs">
+      <a href="https://app.speckle.systems/" target="_blank" class="px-3 py-1.5 rounded-lg bg-blue-600/20 border border-blue-500/40 text-blue-300 hover:bg-blue-600/30 font-semibold transition">🌐 Web Speckle</a>
+      <a href="https://www.youtube.com/watch?v=31dx_Y_QH-Y" target="_blank" class="px-3 py-1.5 rounded-lg bg-rose-600/20 border border-rose-500/40 text-rose-300 hover:bg-rose-600/30 font-semibold transition">▶ Video 1 (Teoría)</a>
+      <a href="https://www.youtube.com/watch?v=DMoVgRhh-Vo" target="_blank" class="px-3 py-1.5 rounded-lg bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 hover:bg-emerald-600/30 font-semibold transition">▶ Video 2 (Práctica)</a>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR DE DIAPOSITIVAS -->
+  <main class="max-w-6xl w-full mx-auto flex-1 flex flex-col justify-center">
+
+    <!-- SLIDE 1: TEORÍA Y NORMATIVA (VIDEO 1) -->
+    <div class="slide active" id="slide-0">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl">
+        <span class="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase">Fase 1 &middot; Fundamento Teórico (Clase 1)</span>
+        <h2 class="text-2xl md:text-3xl font-black mt-3 mb-2 text-white">1. ¿Por qué necesitamos Parámetros en Revit antes de ir a Power BI?</h2>
+        <p class="text-slate-400 text-sm mb-6">Según la <strong>Guía Nacional BIM (Perú)</strong> y la <strong>ISO 19650</strong>, el Nivel de Información Necesaria (LOIN) se divide en geometría (LOD) y metadatos (LOI).</p>
+
+        <div class="grid md:grid-cols-3 gap-5 mb-6">
+          <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl">
+            <div class="text-cyan-400 font-black text-sm uppercase mb-2">1. Usos BIM (27 Usos)</div>
+            <p class="text-xs text-slate-300 leading-relaxed">Define para qué creamos el modelo: en nuestro caso <strong>Cuantificación de Metrados (5D)</strong> y <strong>Planificación de Fases (4D)</strong>.</p>
+          </div>
+          <div class="bg-slate-950 border border-amber-500/40 p-5 rounded-2xl shadow-lg shadow-amber-950/20">
+            <div class="text-amber-400 font-black text-sm uppercase mb-2">2. LOI (Nivel de Información)</div>
+            <p class="text-xs text-slate-300 leading-relaxed">Es la <strong>metadata</strong> insertada en cada columna, viga o losa. Sin parámetros cargados en Revit, Power BI solo recibe figuras vacías.</p>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 p-5 rounded-2xl">
+            <div class="text-emerald-400 font-black text-sm uppercase mb-2">3. Estándar del BEP</div>
+            <p class="text-xs text-slate-300 leading-relaxed">El Plan de Ejecución BIM estandariza los nombres exactos de los parámetros compartidos o de proyecto en Revit.</p>
+          </div>
+        </div>
+
+        <!-- Simulación visual de la captura de Propiedades de Revit del Video 1 (Min 04:53) -->
+        <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5">
+          <div class="text-xs font-bold text-slate-400 uppercase mb-3 flex justify-between">
+            <span>📋 Ejemplo de Panel de Propiedades en Revit (Captura Min. 04:53 - Video 1)</span>
+            <span class="text-cyan-400 font-mono">Pestaña Gestionar &rarr; Parámetros de Proyecto</span>
+          </div>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs font-mono">
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800"><span class="text-slate-500 block">Parámetro:</span><strong class="text-white">ID de elemento</strong><span class="text-emerald-400 block mt-1">Ej: COL-101</span></div>
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800"><span class="text-slate-500 block">Parámetro:</span><strong class="text-white">Nivel</strong><span class="text-emerald-400 block mt-1">Ej: Nivel 1 / Cimentación</span></div>
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800"><span class="text-slate-500 block">Parámetro:</span><strong class="text-white">Elemento / Vaciado</strong><span class="text-emerald-400 block mt-1">Ej: Columna / Vertical</span></div>
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800"><span class="text-slate-500 block">Parámetro:</span><strong class="text-white">Volumen / Semana</strong><span class="text-emerald-400 block mt-1">Ej: 1.45 m³ / Sem 02</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: ARQUITECTURA DEL FLUJO Y SPECKLE WEB -->
+    <div class="slide" id="slide-1">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl">
+        <span class="px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 text-xs font-bold uppercase">Paso 1 &middot; Configuración en Speckle Web (Clase 2: Min 00:18 - 02:32)</span>
+        <h2 class="text-2xl md:text-3xl font-black mt-3 mb-4 text-white">2. Registro en Speckle, Workspace y Descarga de Conectores</h2>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="space-y-3 text-xs md:text-sm text-slate-300">
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex gap-3">
+              <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center shrink-0">1</span>
+              <div><strong>Crear cuenta gratuita:</strong> Entrar a <a href="https://app.speckle.systems/" target="_blank" class="text-cyan-400 underline">app.speckle.systems</a> &rarr; <em>Start for free</em> &rarr; <em>Continue with Google</em> (funciona con Gmail personal).</div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex gap-3">
+              <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center shrink-0">2</span>
+              <div><strong>Crear Workspace:</strong> Nombrarlo (ej. <code>Prueba Taller</code>), omitir invitaciones y elegir el plan <strong>Free (Get started for free)</strong>.</div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-emerald-500/40 flex gap-3">
+              <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center shrink-0">3</span>
+              <div><strong>Crear Proyecto Público:</strong> Clic en <em>New Project</em> &rarr; Nombre: <code>Prueba Modelo</code> &rarr; Visibilidad: <strong>Público (Link Sharing)</strong> para evitar bloqueos en Power BI.</div>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex gap-3">
+              <span class="w-6 h-6 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center shrink-0">4</span>
+              <div><strong>Instalar los 2 Conectores (Min 02:15):</strong> En el menú izquierdo ir a <em>Connectors</em> e instalar los ejecutables de Windows para <strong>Revit</strong> y <strong>Power BI</strong>.</div>
+            </div>
+          </div>
+
+          <!-- Representación de la Interfaz de Speckle Web -->
+          <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between">
+            <div class="text-xs font-mono text-slate-400 border-b border-slate-800 pb-2 mb-3 flex justify-between">
+              <span>🖥️ Simulación Captura: app.speckle.systems</span>
+              <span class="text-emerald-400">● Plan Free Activo</span>
+            </div>
+            <div class="space-y-3 my-auto">
+              <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 flex justify-between items-center">
+                <div>
+                  <div class="text-xs font-bold text-white">📁 Proyecto: Prueba Modelo</div>
+                  <div class="text-[11px] text-slate-400">Visibilidad: Público (Anyone with link)</div>
+                </div>
+                <span class="px-2.5 py-1 bg-blue-600 text-white text-xs rounded-lg font-bold">Share &rarr; Copy Link</span>
+              </div>
+              <div class="grid grid-cols-2 gap-3 pt-2">
+                <div class="p-3 bg-slate-900/70 border border-cyan-500/30 rounded-xl text-center">
+                  <div class="text-cyan-400 font-bold text-xs">🔌 Conector Revit</div>
+                  <div class="text-[10px] text-slate-400 mt-1">Exporta Geometría + LOI</div>
+                </div>
+                <div class="p-3 bg-slate-900/70 border border-amber-500/30 rounded-xl text-center">
+                  <div class="text-amber-400 font-bold text-xs">🔌 Conector Power BI</div>
+                  <div class="text-[10px] text-slate-400 mt-1">Instala Data Connector + .pbiviz</div>
+                </div>
+              </div>
+            </div>
+            <div class="text-[11px] text-slate-500 mt-4 text-center">El instalador guarda automáticamente el visual 3D en: <code>Documentos\Power BI Desktop\Custom Visuals</code></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: EXPORTACIÓN DESDE REVIT -->
+    <div class="slide" id="slide-2">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl">
+        <span class="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-bold uppercase">Paso 2 &middot; Exportación desde Revit (Clase 2: Min 02:39 - 04:50)</span>
+        <h2 class="text-2xl md:text-3xl font-black mt-3 mb-4 text-white">3. Publicar el Modelo de Revit hacia la Nube de Speckle</h2>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-3 text-xs md:text-sm">
+            <h3 class="font-bold text-cyan-400 uppercase text-xs">Secuencia en el Plugin de Revit:</h3>
+            <ol class="list-decimal list-inside space-y-2.5 text-slate-300">
+              <li>Ir a la pestaña <strong>Speckle</strong> en Revit y abrir el conector.</li>
+              <li>Clic en <strong>Publish</strong> &rarr; elegir Workspace <code>Prueba Taller</code> &rarr; Proyecto <code>Prueba Modelo</code>.</li>
+              <li>Clic en el botón <strong><code>+</code> (Crear nuevo modelo)</strong>.</li>
+              <li>En el filtro de selección escoger <strong>Selection</strong> y seleccionar con el mouse todos los elementos 3D en Revit.</li>
+              <li>Abrir <strong>Opciones avanzadas (Min 04:01)</strong> y configurar:
+                <ul class="list-disc list-inside ml-4 mt-1 text-slate-400 text-xs space-y-1">
+                  <li>Nivel de detalle: <strong class="text-white">Medium</strong></li>
+                  <li>Punto de referencia: <strong class="text-white">Internal Origin</strong></li>
+                  <li>Enviar parámetros vacíos/nulos: <strong class="text-emerald-400">Activado</strong></li>
+                  <li>Enviar modelos vinculados (Links): <strong class="text-rose-400">Desactivado</strong></li>
+                </ul>
+              </li>
+              <li>Clic en <strong>Publish</strong> y luego en <strong>View in browser</strong>.</li>
+            </ol>
+          </div>
+
+          <div class="bg-slate-950 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between">
+            <div class="text-xs font-bold text-amber-400 uppercase mb-2">🔍 Verificación en el Navegador (Min 04:24)</div>
+            <p class="text-xs text-slate-300 mb-4">Antes de abrir Power BI, selecciona cualquier columna o losa en el visor web de Speckle y verifica en el panel izquierdo que aparezcan tus parámetros personalizados:</p>
+            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 font-mono text-xs space-y-1.5 text-slate-300">
+              <div class="text-cyan-400 font-bold border-b border-slate-800 pb-1">Identity Data / Properties (Speckle Web)</div>
+              <div class="flex justify-between"><span>ID de elemento:</span><span class="text-white">"345892"</span></div>
+              <div class="flex justify-between"><span>Elemento:</span><span class="text-white">"Columna"</span></div>
+              <div class="flex justify-between"><span>Nivel:</span><span class="text-white">"Nivel 2"</span></div>
+              <div class="flex justify-between"><span>Vaciado:</span><span class="text-white">"Vertical"</span></div>
+              <div class="flex justify-between"><span>Volumen:</span><span class="text-emerald-400">1.85</span></div>
+            </div>
+            <div class="mt-4 p-3 rounded-xl bg-blue-950/40 border border-blue-700/40 text-xs text-blue-200">
+              💡 <strong>Paso clave (Min 07:35):</strong> Haz clic en el botón <strong>Share &rarr; Copy Link</strong> arriba a la derecha para llevar esa URL a Power BI.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: POWER BI Y POWER QUERY -->
+    <div class="slide" id="slide-3">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl">
+        <span class="px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-bold uppercase">Paso 3 &middot; Power BI y Power Query (Clase 2: Min 04:56 - 10:22)</span>
+        <h2 class="text-2xl md:text-3xl font-black mt-3 mb-4 text-white">4. Configurar Seguridad, Cargar el Visor y Desenvolver Datos</h2>
+
+        <div class="grid md:grid-cols-3 gap-4 text-xs">
+          <!-- Columna 1 -->
+          <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-2">
+            <div class="text-amber-400 font-black uppercase">A. Opciones de Power BI (Min 05:12)</div>
+            <p class="text-slate-300">Ir a <code>Archivo &rarr; Opciones</code>:</p>
+            <ul class="list-disc list-inside text-slate-400 space-y-1.5">
+              <li><strong>Seguridad &rarr; Extensiones de datos:</strong> Marcar <em>"Permitir que se cargue cualquier extensión sin validación"</em>.</li>
+              <li>Reiniciar Power BI Desktop.</li>
+              <li>En el panel Visualizaciones clic en <code>...</code> &rarr; <em>Importar un objeto visual de un archivo</em>.</li>
+              <li>Elegir <code>Speckle Power BI 3D Visual</code> desde <code>Documentos\Power BI Desktop\Custom Visuals</code>.</li>
+            </ul>
+          </div>
+
+          <!-- Columna 2 -->
+          <div class="bg-slate-950 border border-slate-800 p-4 rounded-2xl space-y-2">
+            <div class="text-cyan-400 font-black uppercase">B. Desenvolver Matriz (Min 07:04)</div>
+            <p class="text-slate-300">Ir a <code>Obtener datos &rarr; Speckle</code>:</p>
+            <ul class="list-disc list-inside text-slate-400 space-y-1.5">
+              <li>Pegar el Link copiado de Speckle Web y clic en <strong>Transformar datos</strong>.</li>
+              <li>En <strong>Power Query</strong>, ubicar la columna <code>Properties</code>.</li>
+              <li>Hacer clic en el ícono de expandir <code>(&lt;-&gt;)</code> en el encabezado.</li>
+              <li>Seleccionar tus parámetros: <code>Volumen</code>, <code>Nivel</code>, <code>Elemento</code>, <code>Vaciado</code>, <code>ID</code>.</li>
+            </ul>
+          </div>
+
+          <!-- Columna 3 -->
+          <div class="bg-slate-950 border border-emerald-500/40 p-4 rounded-2xl space-y-2">
+            <div class="text-emerald-400 font-black uppercase">C. Tipos de Datos (Min 09:26)</div>
+            <p class="text-slate-300">¡Crucial para poder sumar metrados!</p>
+            <ul class="list-disc list-inside text-slate-400 space-y-1.5">
+              <li>Cambiar la columna <strong>Volumen</strong> a tipo <strong class="text-emerald-300">1.2 Número decimal</strong>.</li>
+              <li>Cambiar el resto de columnas (<code>ID</code>, <code>Nivel</code>, <code>Elemento</code>, <code>Vaciado</code>) a tipo <strong class="text-white">ABC Texto</strong>.</li>
+              <li>Clic en <strong>Cerrar y aplicar</strong> arriba a la izquierda.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: ARMADO DEL DASHBOARD FINAL -->
+    <div class="slide" id="slide-4">
+      <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl">
+        <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold uppercase">Paso 4 &middot; Diseño del Dashboard (Clase 2: Min 10:25 - 14:40)</span>
+        <h2 class="text-2xl md:text-3xl font-black mt-3 mb-4 text-white">5. Mapeo de Campos en los Objetos Visuales</h2>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="space-y-2.5 text-xs">
+            <div class="p-3 bg-slate-950 border border-cyan-500/40 rounded-xl">
+              <strong class="text-cyan-400 block">1. Visor 3D de Speckle (Min 10:40):</strong>
+              Arrastrar <code>Version Object ID</code> y <code>Object ID</code> a las casillas del visual. El modelo 3D cobra vida e interactúa con cualquier clic.
+            </div>
+            <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl">
+              <strong class="text-amber-400 block">2. Segmentador de Datos (Min 12:04):</strong>
+              Campo: <code>Elemento</code> (Losa Aligerada, Placas, Columnas, Vigas).
+            </div>
+            <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl">
+              <strong class="text-emerald-400 block">3. Tarjeta de Resumen KPI (Min 13:10):</strong>
+              Campo: <code>Suma de Volumen</code> (muestra los m³ exactos del filtro activo).
+            </div>
+            <div class="p-3 bg-slate-950 border border-slate-800 rounded-xl">
+              <strong class="text-purple-400 block">4. Gráfico de Barras Apiladas y Anillos (Min 12:35):</strong>
+              Barras: Eje Y = <code>Nivel</code>, Eje X = <code>Volumen</code>, Leyenda = <code>Elemento</code>.<br>
+              Anillo: Leyenda = <code>Vaciado</code> (Horizontal vs. Vertical), Valores = <code>Volumen</code>.
+            </div>
+          </div>
+
+          <!-- Maqueta visual del Dashboard Final del Video 2 -->
+          <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between">
+            <div class="text-[11px] font-mono text-slate-400 border-b border-slate-800 pb-2 mb-3 flex justify-between">
+              <span>📊 Esquema del Dashboard Final (Captura Min 14:35)</span>
+              <span class="text-cyan-400">Interactivo 3D</span>
+            </div>
+            <div class="grid grid-cols-3 gap-2 flex-1">
+              <div class="col-span-1 space-y-2">
+                <div class="bg-slate-900 border border-emerald-500/40 rounded-lg p-2 text-center">
+                  <div class="text-[10px] text-slate-400">VOLUMEN TOTAL</div>
+                  <div class="text-lg font-black text-emerald-400">482.5 m³</div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-lg p-2 text-[10px] space-y-1">
+                  <div class="font-bold text-amber-400">Filtro Elemento:</div>
+                  <div class="px-1.5 py-0.5 bg-cyan-600/30 text-cyan-300 rounded">☑ Columnas</div>
+                  <div class="px-1.5 py-0.5 bg-slate-800 text-slate-400 rounded">☐ Vigas</div>
+                  <div class="px-1.5 py-0.5 bg-slate-800 text-slate-400 rounded">☐ Losas</div>
+                </div>
+              </div>
+              <div class="col-span-2 bg-slate-900 border border-cyan-500/30 rounded-lg p-3 flex flex-col items-center justify-center text-center">
+                <div class="w-16 h-16 rounded-full border-2 border-dashed border-cyan-400 flex items-center justify-center text-xs font-mono text-cyan-300 mb-2">VISOR 3D</div>
+                <div class="text-xs font-bold text-white">Modelo Estructural Speckle</div>
+                <div class="text-[10px] text-slate-400">Aísla y colorea elementos al filtrar</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- CONTROLES DE NAVEGACIÓN DE DIAPOSITIVAS -->
+  <footer class="max-w-6xl w-full mx-auto flex justify-between items-center pt-6 mt-6 border-t border-slate-800">
+    <button onclick="changeSlide(-1)" class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs md:text-sm transition">&larr; Anterior</button>
+    <div class="flex gap-2" id="dots-container"></div>
+    <button onclick="changeSlide(1)" class="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs md:text-sm shadow-lg shadow-cyan-900/40 transition">Siguiente &rarr;</button>
+  </footer>
+
+  <script>
+    var currentSlide = 0;
+    var slides = document.querySelectorAll('.slide');
+    var dotsContainer = document.getElementById('dots-container');
+
+    function renderDots() {
+      dotsContainer.innerHTML = '';
+      for (var i = 0; i < slides.length; i++) {
+        var dot = document.createElement('button');
+        dot.className = 'w-3 h-3 rounded-full transition ' + (i === currentSlide ? 'bg-cyan-400 scale-125' : 'bg-slate-700 hover:bg-slate-600');
+        dot.setAttribute('onclick', 'goToSlide(' + i + ')');
+        dotsContainer.appendChild(dot);
+      }
+    }
+
+    function goToSlide(n) {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (n + slides.length) % slides.length;
+      slides[currentSlide].classList.add('active');
+      renderDots();
+    }
+
+    function changeSlide(dir) {
+      goToSlide(currentSlide + dir);
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowRight') changeSlide(1);
+      if (e.key === 'ArrowLeft') changeSlide(-1);
+    });
+
+    renderDots();
+  </script>
+</body>
+</html>
